@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -9,21 +10,15 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Apply dark mode on app initialization
+// Force deep blue dark mode
 const initializeDarkMode = () => {
-  const isDarkMode = localStorage.getItem('sudoku_dark_mode') === 'true' || 
-    (localStorage.getItem('sudoku_dark_mode') === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  
   const root = document.documentElement;
-  if (isDarkMode) {
-    root.classList.add('dark');
-  } else {
-    root.classList.remove('dark');
-  }
+  root.classList.add('dark');
+  localStorage.setItem('sudoku_dark_mode', 'true');
 };
 
 const App = () => {
-  // Initialize dark mode on app start
+  // Force dark mode on app start
   useEffect(() => {
     initializeDarkMode();
   }, []);
