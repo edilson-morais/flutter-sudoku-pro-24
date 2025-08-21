@@ -39,14 +39,11 @@ export function SudokuCell({
           // Highlighted cells
           "bg-primary/5": isHighlighted && !isSelected,
           
-          // Given numbers
-          "bg-muted/50": isGiven,
-          
           // Conflict state
           "bg-destructive/20 text-destructive": hasConflict,
           
-          // Default state
-          "bg-background": !isSelected && !isHighlighted && !isGiven && !hasConflict,
+          // Default state - sem fundo cinza para números dados
+          "bg-background": !isSelected && !isHighlighted && !hasConflict,
           
           // Text styling
           "text-foreground font-bold": isGiven,
