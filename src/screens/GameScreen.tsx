@@ -339,7 +339,7 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
   }
 
   return (
-    <div className="h-screen max-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex flex-col overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex flex-col overflow-hidden">
       {/* Header ultra compacto e otimizado */}
       <div className="flex-shrink-0 px-2 sm:px-4 py-1.5 sm:py-2 border-b border-border/20">
         <div className="flex items-center justify-between max-w-sm mx-auto">

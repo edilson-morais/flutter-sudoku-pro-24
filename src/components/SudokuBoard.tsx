@@ -30,23 +30,23 @@ export function SudokuBoard({ gameState, conflicts, onCellClick }: SudokuBoardPr
   };
 
   return (
-    <div className="relative w-full max-w-[280px] sm:max-w-sm mx-auto animate-fade-in">
-      {/* Board container responsivo */}
-      <div className="modern-card p-0.5 sm:p-1">
-        {/* Main board grid com responsividade aprimorada */}
-        <div className="relative grid grid-cols-9 gap-0 border-2 border-white rounded-lg sm:rounded-xl overflow-hidden aspect-square shadow-2xl">
-          {/* 3x3 block separators com linhas brancas responsivas */}
+    <div className="w-full">
+      {/* Board container */}
+      <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-lg p-2 shadow-lg">
+        {/* Main board grid */}
+        <div className="relative grid grid-cols-9 gap-0 bg-background border-2 border-primary/30 rounded aspect-square overflow-hidden">
+          {/* 3x3 block separators */}
           <div className="absolute inset-0 pointer-events-none">
-            {/* Vertical separators - linhas brancas */}
+            {/* Vertical separators */}
             <div className="absolute top-0 bottom-0 w-0.5 bg-white" style={{ left: 'calc(33.333% - 1px)' }} />
             <div className="absolute top-0 bottom-0 w-0.5 bg-white" style={{ left: 'calc(66.666% - 1px)' }} />
             
-            {/* Horizontal separators - linhas brancas */}
+            {/* Horizontal separators */}
             <div className="absolute left-0 right-0 h-0.5 bg-white" style={{ top: 'calc(33.333% - 1px)' }} />
             <div className="absolute left-0 right-0 h-0.5 bg-white" style={{ top: 'calc(66.666% - 1px)' }} />
           </div>
           
-          {/* Cells responsivas */}
+          {/* Cells */}
           {board.map((row, rowIndex) =>
             row.map((cell, colIndex) => (
               <SudokuCell
@@ -67,8 +67,8 @@ export function SudokuBoard({ gameState, conflicts, onCellClick }: SudokuBoardPr
           )}
         </div>
         
-        {/* Progress indicator responsivo */}
-        <div className="mt-1.5 sm:mt-2 w-full bg-muted/30 rounded-full h-0.5 sm:h-1 overflow-hidden">
+        {/* Progress indicator */}
+        <div className="mt-3 w-full bg-muted/30 rounded-full h-1.5 overflow-hidden">
           <div 
             className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-500 ease-out rounded-full"
             style={{
@@ -77,8 +77,8 @@ export function SudokuBoard({ gameState, conflicts, onCellClick }: SudokuBoardPr
           />
         </div>
         
-        {/* Completion percentage responsivo */}
-        <div className="text-center mt-1 text-[10px] sm:text-xs text-muted-foreground font-medium">
+        {/* Completion percentage */}
+        <div className="text-center mt-2 text-xs text-muted-foreground font-medium">
           {Math.round((board.flat().filter(cell => cell !== 0).length / 81) * 100)}% completo
         </div>
       </div>

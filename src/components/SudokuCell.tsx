@@ -30,69 +30,60 @@ export function SudokuCell({
   return (
     <div
       className={cn(
-        // Base styles responsivos
-        "relative aspect-square flex items-center justify-center text-sm sm:text-base md:text-lg font-semibold cursor-pointer transition-all duration-200 select-none group",
-        "border border-white/30 backdrop-blur-sm",
-        "hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-95",
+        // Base styles
+        "relative aspect-square flex items-center justify-center text-lg font-semibold cursor-pointer transition-all duration-200 select-none",
+        "border border-border/30",
+        "hover:bg-primary/10 active:scale-95",
         
-        // Border effects for 3x3 grids com linhas brancas responsivas
+        // Border effects for 3x3 grids
         {
           "border-r-2 border-r-white": isThickBorderRight,
           "border-b-2 border-b-white": isThickBorderBottom,
         },
         
-        // State-based styling responsivo
+        // State-based styling
         {
-          // Selected cell with glow effect responsivo
-          "bg-gradient-to-br from-cell-selected to-cell-selected/80 border-primary shadow-lg shadow-primary/20 scale-105 z-10": isSelected,
+          // Selected cell
+          "bg-primary/20 border-primary/50 scale-105 z-10": isSelected,
           
-          // Highlighted cells with subtle glow
-          "bg-gradient-to-br from-cell-highlighted to-cell-highlighted/60": isHighlighted && !isSelected,
+          // Highlighted cells
+          "bg-primary/5": isHighlighted && !isSelected,
           
-          // Given numbers with distinct styling
-          "bg-gradient-to-br from-cell-given to-cell-given/80 shadow-inner": isGiven,
+          // Given numbers
+          "bg-muted/50": isGiven,
           
-          // Conflict state with pulsing animation
-          "bg-gradient-to-br from-cell-conflict to-destructive/20 animate-pulse border-destructive/50": hasConflict,
+          // Conflict state
+          "bg-destructive/20 animate-pulse border-destructive/50": hasConflict,
           
-          // Default state with glass effect
-          "bg-gradient-to-br from-cell-background/80 to-cell-background/60 glass": !isSelected && !isHighlighted && !isGiven && !hasConflict,
+          // Default state
+          "bg-background": !isSelected && !isHighlighted && !isGiven && !hasConflict,
           
-          // Text styling responsivo
-          "text-foreground font-bold": isGiven,
+          // Text styling
+          "text-muted-foreground font-bold": isGiven,
           "text-primary font-semibold": !isGiven && value > 0,
-          
-          // Hover effects
-          "hover:bg-gradient-to-br hover:from-cell-highlighted hover:to-cell-highlighted/80": !isSelected && !hasConflict,
         }
       )}
       onClick={onClick}
     >
-      {/* Subtle gradient overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-sm" />
-      
-      {/* Selection indicator responsivo */}
+      {/* Selection indicator */}
       {isSelected && (
-        <div className="absolute inset-0 rounded-sm border-2 border-primary/50 animate-pulse" />
+        <div className="absolute inset-0 border-2 border-primary/70 rounded-sm animate-pulse" />
       )}
       
-      {/* Cell content responsivo */}
+      {/* Cell content */}
       {value > 0 ? (
-        <span className="relative z-10 text-center drop-shadow-sm">
+        <span className="relative z-10 text-center">
           {value}
         </span>
       ) : notes.length > 0 ? (
-        <div className="relative z-10 grid grid-cols-3 gap-0 text-[0.25rem] sm:text-[0.3rem] md:text-[0.35rem] text-cell-notes p-0.5">
+        <div className="relative z-10 grid grid-cols-3 gap-0 text-[0.4rem] text-muted-foreground p-0.5">
           {Array.from({ length: 9 }, (_, i) => (
-            <div key={i + 1} className="text-center leading-none font-medium opacity-70">
+            <div key={i + 1} className="text-center leading-none font-medium">
               {notes.includes(i + 1) ? i + 1 : ''}
             </div>
           ))}
         </div>
       ) : null}
-      
-      {/* Hover effect overlay */}
-      <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-sm pointer-events-none" />
     </div>
   );
 }
