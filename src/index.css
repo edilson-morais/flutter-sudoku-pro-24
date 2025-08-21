@@ -70,62 +70,62 @@
 
   .dark {
     /* Deep Blue Dark Mode - Ultra Dark Theme */
-    --background: 220 30% 2%;
-    --foreground: 220 5% 95%;
+    --background: 212 35% 3%;
+    --foreground: 212 8% 92%;
 
-    --card: 220 25% 4%;
-    --card-foreground: 220 5% 95%;
+    --card: 212 30% 5%;
+    --card-foreground: 212 8% 92%;
 
-    --popover: 220 25% 4%;
-    --popover-foreground: 220 5% 95%;
+    --popover: 212 30% 5%;
+    --popover-foreground: 212 8% 92%;
 
-    --primary: 210 100% 70%;
-    --primary-foreground: 220 30% 2%;
+    --primary: 212 95% 65%;
+    --primary-foreground: 212 35% 3%;
 
-    --secondary: 220 20% 8%;
-    --secondary-foreground: 220 5% 85%;
+    --secondary: 212 25% 8%;
+    --secondary-foreground: 212 8% 85%;
 
-    --muted: 220 20% 8%;
-    --muted-foreground: 220 5% 65%;
+    --muted: 212 25% 8%;
+    --muted-foreground: 212 8% 65%;
 
-    --accent: 190 100% 65%;
-    --accent-foreground: 220 30% 2%;
+    --accent: 195 100% 60%;
+    --accent-foreground: 212 35% 3%;
 
-    --destructive: 0 75% 70%;
+    --destructive: 0 75% 60%;
     --destructive-foreground: 0 0% 98%;
 
     --warning: 38 92% 65%;
     --warning-foreground: 0 0% 98%;
 
-    --success: 142 70% 55%;
+    --success: 142 70% 50%;
     --success-foreground: 0 0% 98%;
 
-    --border: 220 20% 12%;
-    --input: 220 20% 12%;
-    --ring: 210 100% 70%;
+    --border: 212 25% 12%;
+    --input: 212 25% 12%;
+    --ring: 212 95% 65%;
 
     /* Deep Blue Sudoku specific colors */
-    --cell-background: 220 25% 6%;
-    --cell-given: 220 20% 10%;
-    --cell-selected: 210 100% 15%;
-    --cell-highlighted: 220 40% 8%;
+    --cell-background: 212 30% 6%;
+    --cell-given: 212 25% 10%;
+    --cell-selected: 212 95% 15%;
+    --cell-highlighted: 212 40% 8%;
     --cell-conflict: 0 75% 20%;
-    --cell-notes: 220 15% 60%;
-    --grid-thick: 220 10% 75%;
-    --grid-thin: 220 20% 15%;
+    --cell-notes: 212 15% 60%;
+    --grid-thick: 212 15% 75%;
+    --grid-thin: 212 25% 15%;
 
     /* Deep blue glass morphism */
-    --glass-bg: 220 30% 2% / 0.4;
-    --glass-border: 210 100% 70% / 0.1;
+    --glass-bg: 212 35% 3% / 0.4;
+    --glass-border: 212 95% 65% / 0.1;
 
-    --sidebar-background: 220 30% 3%;
-    --sidebar-foreground: 220 5% 95%;
-    --sidebar-primary: 210 100% 70%;
-    --sidebar-primary-foreground: 220 30% 2%;
-    --sidebar-accent: 220 20% 8%;
-    --sidebar-accent-foreground: 220 5% 95%;
-    --sidebar-border: 220 20% 12%;
-    --sidebar-ring: 210 100% 70%;
+    --sidebar-background: 212 35% 4%;
+    --sidebar-foreground: 212 8% 92%;
+    --sidebar-primary: 212 95% 65%;
+    --sidebar-primary-foreground: 212 35% 3%;
+    --sidebar-accent: 212 25% 8%;
+    --sidebar-accent-foreground: 212 8% 92%;
+    --sidebar-border: 212 25% 12%;
+    --sidebar-ring: 212 95% 65%;
   }
 }
 
@@ -183,36 +183,58 @@
     -webkit-backdrop-filter: blur(24px);
     background: hsl(var(--glass-bg));
     border: 1px solid hsl(var(--glass-border));
-    box-shadow: 0 8px 32px hsla(220, 100%, 70%, 0.1);
+    box-shadow: 0 8px 32px hsla(212, 95%, 65%, 0.1);
   }
 
   /* Modern card with deep blue gradients and enhanced shadows */
   .modern-card {
-    @apply relative overflow-hidden rounded-2xl border bg-gradient-to-br from-card/95 to-card/80 backdrop-blur-sm shadow-xl shadow-primary/10;
+    @apply relative overflow-hidden rounded-2xl border backdrop-blur-sm shadow-xl;
+    background: linear-gradient(135deg, hsl(var(--card) / 0.95), hsl(var(--card) / 0.8));
+    box-shadow: 0 25px 50px -12px hsl(var(--primary) / 0.1);
   }
 
   .modern-card::before {
     content: '';
-    @apply absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/8 via-transparent to-accent/8 pointer-events-none;
+    @apply absolute inset-0 rounded-2xl pointer-events-none;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.05), transparent, hsl(var(--accent) / 0.05));
   }
 
   .dark .modern-card {
-    @apply shadow-2xl shadow-primary/20;
-    border-color: hsl(220 20% 15%);
+    @apply shadow-2xl;
+    border-color: hsl(212 25% 15%);
+    box-shadow: 0 25px 50px -12px hsl(var(--primary) / 0.2);
   }
 
   .dark .modern-card::before {
-    @apply bg-gradient-to-br from-primary/12 via-transparent to-accent/12;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.08), transparent, hsl(var(--accent) / 0.08));
   }
 
   /* Enhanced floating action button */
   .fab {
-    @apply fixed bottom-6 right-6 h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-accent text-primary-foreground shadow-2xl shadow-primary/40 hover:shadow-3xl hover:shadow-primary/50 transition-all duration-300 hover:scale-110 active:scale-95;
+    @apply fixed bottom-6 right-6 h-16 w-16 rounded-2xl text-primary-foreground shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    box-shadow: 0 25px 50px -12px hsl(var(--primary) / 0.4);
+  }
+
+  .fab:hover {
+    box-shadow: 0 35px 60px -12px hsl(var(--primary) / 0.5);
   }
 
   /* Modern input with deep blue theme */
   .modern-input {
-    @apply relative rounded-xl border-2 border-border/50 bg-background/60 backdrop-blur-sm transition-all duration-300 focus-within:border-primary/60 focus-within:bg-background/90 hover:border-border;
+    @apply relative rounded-xl border-2 transition-all duration-300;
+    border-color: hsl(var(--border) / 0.5);
+    background: hsl(var(--background) / 0.6);
+    backdrop-filter: blur(8px);
+  }
+
+  .modern-input:focus-within {
+    border-color: hsl(var(--primary) / 0.6);
+    background: hsl(var(--background) / 0.9);
+  }
+
+  .modern-input:hover {
+    border-color: hsl(var(--border));
   }
 
   /* Enhanced animations */
@@ -230,18 +252,39 @@
 
   /* Gradient text with deep blue theme */
   .gradient-text {
-    @apply bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
     background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     animation: gradientShift 3s ease-in-out infinite;
   }
 
   /* Enhanced neo-brutalism button with deep blue accents */
   .neo-btn {
-    @apply relative rounded-xl border-2 border-foreground/20 bg-gradient-to-br from-background/80 to-background/60 text-foreground shadow-[3px_3px_0px_0px_hsl(var(--primary))] transition-all duration-150 hover:shadow-[1px_1px_0px_0px_hsl(var(--primary))] hover:translate-x-0.5 hover:translate-y-0.5 active:shadow-none active:translate-x-1 active:translate-y-1 backdrop-blur-sm;
+    @apply relative rounded-xl border-2 text-foreground shadow-lg transition-all duration-150 backdrop-blur-sm;
+    border-color: hsl(var(--foreground) / 0.2);
+    background: linear-gradient(135deg, hsl(var(--background) / 0.8), hsl(var(--background) / 0.6));
+    box-shadow: 3px 3px 0px 0px hsl(var(--primary));
+  }
+
+  .neo-btn:hover {
+    transform: translate(0.5px, 0.5px);
+    box-shadow: 1px 1px 0px 0px hsl(var(--primary));
+  }
+
+  .neo-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
   }
 
   .dark .neo-btn {
-    @apply border-primary/30 shadow-[3px_3px_0px_0px_hsl(var(--primary))] hover:shadow-[1px_1px_0px_0px_hsl(var(--primary))];
+    border-color: hsl(var(--primary) / 0.3);
+    box-shadow: 3px 3px 0px 0px hsl(var(--primary));
+  }
+
+  .dark .neo-btn:hover {
+    box-shadow: 1px 1px 0px 0px hsl(var(--primary));
   }
 
   /* Deep blue pulse animation */
@@ -305,15 +348,17 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-muted/20 rounded-full;
+  background: hsl(var(--muted) / 0.2);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gradient-to-b from-primary/40 to-primary/60 rounded-full;
+  background: linear-gradient(to bottom, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.6));
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply from-primary/60 to-primary/80;
+  background: linear-gradient(to bottom, hsl(var(--primary) / 0.6), hsl(var(--primary) / 0.8));
 }
 
 /* Deep blue selection */
@@ -324,5 +369,6 @@
 
 /* Enhanced focus styles */
 *:focus-visible {
-  @apply outline-none ring-2 ring-primary/50 ring-offset-2 ring-offset-background;
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.5), 0 0 0 4px hsl(var(--background));
 }
