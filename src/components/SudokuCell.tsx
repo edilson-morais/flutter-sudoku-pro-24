@@ -28,24 +28,13 @@ export function SudokuCell({
     <div
       className={cn(
         // Base styles
-        "relative aspect-square flex items-center justify-center text-lg font-semibold cursor-pointer transition-all duration-150 select-none",
-        "border-r border-b border-border/30",
+        "relative aspect-square flex items-center justify-center text-lg font-semibold cursor-pointer transition-all duration-150 select-none w-full h-full",
         "hover:bg-primary/5",
-        
-        // Remove right border for last column in each 3x3 block
-        {
-          "border-r-0": col === 2 || col === 5 || col === 8,
-        },
-        
-        // Remove bottom border for last row in each 3x3 block  
-        {
-          "border-b-0": row === 2 || row === 5 || row === 8,
-        },
         
         // State-based styling
         {
           // Selected cell
-          "bg-primary/20 border-primary ring-2 ring-primary/50 z-20": isSelected,
+          "bg-primary/20 ring-2 ring-primary/50 z-20": isSelected,
           
           // Highlighted cells
           "bg-primary/5": isHighlighted && !isSelected,
@@ -54,7 +43,7 @@ export function SudokuCell({
           "bg-muted/50": isGiven,
           
           // Conflict state
-          "bg-destructive/20 border-destructive text-destructive": hasConflict,
+          "bg-destructive/20 text-destructive": hasConflict,
           
           // Default state
           "bg-background": !isSelected && !isHighlighted && !isGiven && !hasConflict,

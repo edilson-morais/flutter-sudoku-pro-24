@@ -33,38 +33,39 @@ export function SudokuBoard({ gameState, conflicts, onCellClick }: SudokuBoardPr
     <div className="w-full">
       {/* Board container */}
       <div className="bg-card border border-border rounded-lg p-3 shadow-sm">
-        {/* Main board grid */}
-        <div className="relative grid grid-cols-9 gap-0 bg-background border-2 border-border aspect-square w-full max-w-sm mx-auto">
-          {/* 3x3 block separators */}
-          <div className="absolute inset-0 pointer-events-none z-10">
-            {/* Vertical separators */}
-            <div className="absolute top-0 bottom-0 w-0.5 bg-border" style={{ left: 'calc(33.333% - 1px)' }} />
-            <div className="absolute top-0 bottom-0 w-0.5 bg-border" style={{ left: 'calc(66.666% - 1px)' }} />
-            
-            {/* Horizontal separators */}
-            <div className="absolute left-0 right-0 h-0.5 bg-border" style={{ top: 'calc(33.333% - 1px)' }} />
-            <div className="absolute left-0 right-0 h-0.5 bg-border" style={{ top: 'calc(66.666% - 1px)' }} />
+        {/* Main board grid com bordas visíveis */}
+        <div className="relative bg-white border-4 border-gray-800 aspect-square w-full max-w-sm mx-auto">
+          {/* Grid 9x9 */}
+          <div className="grid grid-cols-9 grid-rows-9 h-full w-full">
+            {board.map((row, rowIndex) =>
+              row.map((cell, colIndex) => {
+                // Determinar bordas grossas para separar blocos 3x3
+                const rightBorder = (colIndex + 1) % 3 === 0 && colIndex !== 8 ? "border-r-4 border-r-gray-800" : "border-r border-r-gray-300";
+                const bottomBorder = (rowIndex + 1) % 3 === 0 && rowIndex !== 8 ? "border-b-4 border-b-gray-800" : "border-b border-b-gray-300";
+                
+                return (
+                  <div
+                    key={`${rowIndex}-${colIndex}`}
+                    className={`${rightBorder} ${bottomBorder} relative`}
+                  >
+                    <SudokuCell
+                      value={cell}
+                      notes={notes[rowIndex][colIndex]}
+                      row={rowIndex}
+                      col={colIndex}
+                      isSelected={
+                        selectedCell?.[0] === rowIndex && selectedCell?.[1] === colIndex
+                      }
+                      isHighlighted={isCellHighlighted(rowIndex, colIndex)}
+                      isGiven={initialBoard[rowIndex][colIndex] !== 0}
+                      hasConflict={hasCellConflict(rowIndex, colIndex)}
+                      onClick={() => onCellClick(rowIndex, colIndex)}
+                    />
+                  </div>
+                );
+              })
+            )}
           </div>
-          
-          {/* Cells */}
-          {board.map((row, rowIndex) =>
-            row.map((cell, colIndex) => (
-              <SudokuCell
-                key={`${rowIndex}-${colIndex}`}
-                value={cell}
-                notes={notes[rowIndex][colIndex]}
-                row={rowIndex}
-                col={colIndex}
-                isSelected={
-                  selectedCell?.[0] === rowIndex && selectedCell?.[1] === colIndex
-                }
-                isHighlighted={isCellHighlighted(rowIndex, colIndex)}
-                isGiven={initialBoard[rowIndex][colIndex] !== 0}
-                hasConflict={hasCellConflict(rowIndex, colIndex)}
-                onClick={() => onCellClick(rowIndex, colIndex)}
-              />
-            ))
-          )}
         </div>
         
         {/* Progress indicator */}
