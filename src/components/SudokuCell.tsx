@@ -40,25 +40,31 @@ export function SudokuCell({
           "bg-primary/5": isHighlighted && !isSelected,
           
           // Conflict state
-          "bg-destructive/20 text-destructive": hasConflict,
+          "bg-destructive/20": hasConflict,
           
           // Default state - sem fundo cinza para números dados
           "bg-background": !isSelected && !isHighlighted && !hasConflict,
-          
-          // Text styling
-          "text-foreground font-bold": isGiven,
-          "text-primary font-semibold": !isGiven && value > 0,
         }
       )}
       onClick={onClick}
     >
       {/* Cell content */}
       {value > 0 ? (
-        <span className="relative z-10 text-center">
+        <span className={cn(
+          "relative z-10 text-center text-lg font-bold",
+          {
+            // Números dados (pretos e em negrito)
+            "text-gray-900": isGiven && !hasConflict,
+            // Números inseridos pelo usuário (azuis)
+            "text-blue-600": !isGiven && !hasConflict,
+            // Números em conflito (vermelhos)
+            "text-red-600": hasConflict,
+          }
+        )}>
           {value}
         </span>
       ) : notes.length > 0 ? (
-        <div className="relative z-10 grid grid-cols-3 gap-0 text-[0.35rem] text-muted-foreground p-0.5 w-full h-full">
+        <div className="relative z-10 grid grid-cols-3 gap-0 text-[0.35rem] text-gray-500 p-0.5 w-full h-full">
           {Array.from({ length: 9 }, (_, i) => (
             <div key={i + 1} className="text-center leading-none font-medium flex items-center justify-center">
               {notes.includes(i + 1) ? i + 1 : ''}
