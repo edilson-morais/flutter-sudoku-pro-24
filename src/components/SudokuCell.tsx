@@ -37,7 +37,7 @@ export function SudokuCell({
           "bg-white/20 ring-2 ring-primary/50 z-20": isSelected,
           
           // Highlighted cells
-          "bg-primary/5": isHighlighted && !isSelected,
+          "bg-white/5": isHighlighted && !isSelected,
           
           // Conflict state
           "bg-destructive/20": hasConflict,
