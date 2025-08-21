@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { SudokuBoard } from "@/components/SudokuBoard";
-import { NumberPad } from "@/components/NumberPad";
 import { SudokuService, GameState } from "@/services/sudoku-service";
 import { StorageService } from "@/services/storage-service";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trophy, Star, Home, RotateCcw, Save, Undo, Edit, Lightbulb, Eraser, Clock, Timer } from "lucide-react";
+import { Trophy, Star, Home, RotateCcw, Save, Undo, Edit, Lightbulb, Eraser, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface GameScreenProps {
@@ -340,58 +339,57 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex flex-col overflow-hidden">
-      {/* Header moderno e compacto */}
-      <div className="modern-card rounded-none border-x-0 border-t-0 px-4 py-3 flex-shrink-0">
-        <div className="max-w-sm mx-auto">
-          <div className="flex items-center justify-between">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onHome}
-              className="h-8 w-8 p-0 hover:bg-primary/10"
-            >
-              <Home className="h-4 w-4" />
-            </Button>
-            
-            <div className="flex items-center gap-4 text-sm">
-              <div className="flex items-center gap-1">
-                <Timer className="h-3 w-3 text-primary" />
-                <span className="font-mono font-semibold">{timer}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Lightbulb className="h-3 w-3 text-warning" />
-                <span className="font-semibold">{gameState.hintsUsed}/{gameState.maxHints}</span>
-              </div>
+    <div className="h-screen bg-gradient-to-br from-background via-background to-primary/5 flex flex-col overflow-hidden">
+      {/* Header compacto para mobile */}
+      <div className="flex-shrink-0 px-3 py-2 border-b border-border/20">
+        <div className="flex items-center justify-between max-w-sm mx-auto">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onHome}
+            className="h-8 w-8 p-0"
+          >
+            <Home className="h-4 w-4" />
+          </Button>
+          
+          <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-1">
+              <Timer className="h-3 w-3 text-primary" />
+              <span className="font-mono font-semibold">{timer}</span>
             </div>
+            <div className="flex items-center gap-1">
+              <Lightbulb className="h-3 w-3 text-warning" />
+              <span className="font-semibold">{gameState.hintsUsed}/{gameState.maxHints}</span>
+            </div>
+          </div>
 
-            <div className="text-xs font-medium capitalize text-muted-foreground">
-              {difficulty}
-            </div>
+          <div className="text-xs font-medium capitalize text-muted-foreground">
+            {difficulty}
           </div>
         </div>
       </div>
 
-      {/* Conteúdo principal em grid compacto */}
-      <div className="flex-1 p-3 flex flex-col justify-between max-h-[calc(100vh-4rem)]">
-        <div className="max-w-sm mx-auto w-full space-y-3">
-          {/* Tabuleiro do jogo */}
-          <div className="flex-shrink-0">
-            <SudokuBoard
-              gameState={gameState}
-              conflicts={conflicts}
-              onCellClick={handleCellClick}
-            />
-          </div>
+      {/* Conteúdo principal otimizado para single-fold */}
+      <div className="flex-1 flex flex-col justify-between p-2 min-h-0">
+        {/* Tabuleiro */}
+        <div className="flex-shrink-0">
+          <SudokuBoard
+            gameState={gameState}
+            conflicts={conflicts}
+            onCellClick={handleCellClick}
+          />
+        </div>
 
-          {/* Controles de ação em grid compacto */}
-          <div className="grid grid-cols-4 gap-2">
+        {/* Controles compactos */}
+        <div className="flex-shrink-0 max-w-sm mx-auto w-full space-y-2">
+          {/* Botões de ação principais */}
+          <div className="grid grid-cols-4 gap-1">
             <Button
               variant={gameState.isNotesMode ? "default" : "outline"}
               size="sm"
               onClick={handleToggleNotes}
               className={cn(
-                "h-8 text-xs neo-btn",
+                "h-8 text-xs neo-btn p-1",
                 gameState.isNotesMode && "bg-accent text-accent-foreground"
               )}
             >
@@ -403,7 +401,7 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
               size="sm"
               onClick={handleUndo}
               disabled={gameState.history.length <= 1}
-              className="h-8 text-xs neo-btn"
+              className="h-8 text-xs neo-btn p-1"
             >
               <Undo className="h-3 w-3" />
             </Button>
@@ -411,67 +409,37 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
             <Button
               variant="outline"
               size="sm"
-              onClick={handleRestart}
-              className="h-8 text-xs neo-btn"
+              onClick={handleHint}
+              disabled={gameState.hintsUsed >= gameState.maxHints}
+              className="h-8 text-xs neo-btn p-1"
             >
-              <RotateCcw className="h-3 w-3" />
+              <Lightbulb className="h-3 w-3" />
             </Button>
             
             <Button
               variant="outline"
               size="sm"
-              onClick={handleSave}
-              className="h-8 text-xs neo-btn"
+              onClick={handleErase}
+              disabled={!gameState.selectedCell || gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0}
+              className="h-8 text-xs neo-btn p-1"
             >
-              <Save className="h-3 w-3" />
+              <Eraser className="h-3 w-3" />
             </Button>
           </div>
-        </div>
 
-        {/* NumberPad compacto na parte inferior */}
-        <div className="max-w-sm mx-auto w-full">
-          <div className="grid grid-cols-3 gap-2 mb-3">
+          {/* Teclado numérico compacto */}
+          <div className="grid grid-cols-3 gap-1">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
               <Button
                 key={number}
                 variant="outline"
                 onClick={() => handleNumberInput(number)}
                 disabled={!gameState.selectedCell || gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0}
-                className={cn(
-                  "h-10 text-lg font-bold neo-btn",
-                  "modern-card border-2 border-primary/20",
-                  "hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20",
-                  "active:scale-95 transition-all duration-200",
-                  "bg-gradient-to-br from-card to-card/80",
-                  "hover:from-primary/5 hover:to-primary/10"
-                )}
+                className="h-10 text-lg font-bold neo-btn border-2 border-primary/30 hover:border-primary/60"
               >
                 {number}
               </Button>
             ))}
-          </div>
-
-          {/* Botões de ação */}
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={handleHint}
-              disabled={gameState.hintsUsed >= gameState.maxHints}
-              className="flex-1 h-10 neo-btn"
-            >
-              <Lightbulb className="h-4 w-4 mr-2" />
-              Dica
-            </Button>
-            
-            <Button
-              variant="outline"
-              onClick={handleErase}
-              disabled={!gameState.selectedCell || gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0}
-              className="flex-1 h-10 neo-btn"
-            >
-              <Eraser className="h-4 w-4 mr-2" />
-              Apagar
-            </Button>
           </div>
         </div>
       </div>

@@ -32,13 +32,13 @@ export function SudokuCell({
       className={cn(
         // Base styles with modern design
         "relative aspect-square flex items-center justify-center text-lg font-semibold cursor-pointer transition-all duration-200 select-none group",
-        "border border-grid-thin backdrop-blur-sm",
+        "border border-white/30 backdrop-blur-sm",
         "hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-95",
         
-        // Border effects for 3x3 grids
+        // Border effects for 3x3 grids com linhas brancas
         {
-          "border-r-2 border-r-grid-thick": isThickBorderRight,
-          "border-b-2 border-b-grid-thick": isThickBorderBottom,
+          "border-r-2 border-r-white": isThickBorderRight,
+          "border-b-2 border-b-white": isThickBorderBottom,
         },
         
         // State-based styling with modern effects
@@ -82,7 +82,7 @@ export function SudokuCell({
           {value}
         </span>
       ) : notes.length > 0 ? (
-        <div className="relative z-10 grid grid-cols-3 gap-0 text-[0.4rem] sm:text-[0.45rem] text-cell-notes p-0.5 sm:p-1">
+        <div className="relative z-10 grid grid-cols-3 gap-0 text-[0.35rem] sm:text-[0.4rem] text-cell-notes p-0.5">
           {Array.from({ length: 9 }, (_, i) => (
             <div key={i + 1} className="text-center leading-none font-medium opacity-70">
               {notes.includes(i + 1) ? i + 1 : ''}
