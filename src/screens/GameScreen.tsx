@@ -339,129 +339,125 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex flex-col overflow-hidden">
-      {/* Header ultra compacto e otimizado */}
-      <div className="flex-shrink-0 px-2 sm:px-4 py-1.5 sm:py-2 border-b border-border/20">
-        <div className="flex items-center justify-between max-w-sm mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex flex-col">
+      {/* Header compacto */}
+      <div className="flex-shrink-0 px-3 py-2 border-b border-border/20">
+        <div className="flex items-center justify-between">
           <Button
             variant="ghost"
             size="sm"
             onClick={onHome}
-            className="h-7 w-7 sm:h-8 sm:w-8 p-0 neo-btn"
+            className="h-8 w-8 p-0"
           >
-            <Home className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <Home className="h-4 w-4" />
           </Button>
           
-          <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
+          <div className="flex items-center gap-4 text-sm">
             <div className="flex items-center gap-1">
-              <Timer className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary" />
-              <span className="font-mono font-semibold min-w-[32px] sm:min-w-[40px]">{timer}</span>
+              <Timer className="h-4 w-4 text-primary" />
+              <span className="font-mono font-semibold">{timer}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Lightbulb className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-warning" />
-              <span className="font-semibold min-w-[16px] text-center">{gameState.hintsUsed}/{gameState.maxHints}</span>
+              <Lightbulb className="h-4 w-4 text-warning" />
+              <span className="font-semibold">{gameState?.hintsUsed || 0}/{gameState?.maxHints || 3}</span>
             </div>
-          </div>
-
-          <div className="text-xs font-medium capitalize text-muted-foreground min-w-[48px] sm:min-w-[56px] text-right">
-            {difficulty}
+            <div className="text-xs font-medium capitalize text-muted-foreground">
+              {difficulty}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Conteúdo principal responsivo otimizado */}
-      <div className="flex-1 flex flex-col justify-between p-2 sm:p-3 min-h-0 gap-2 sm:gap-3">
-        {/* Container do tabuleiro responsivo */}
-        <div className="flex-shrink-0 w-full">
+      {/* Conteúdo principal */}
+      <div className="flex-1 flex flex-col p-3 space-y-3">
+        {/* Tabuleiro */}
+        <div className="flex-shrink-0">
           <SudokuBoard
-            gameState={gameState}
+            gameState={gameState!}
             conflicts={conflicts}
             onCellClick={handleCellClick}
           />
         </div>
 
-        {/* Controles ultra compactos e responsivos */}
-        <div className="flex-shrink-0 max-w-sm mx-auto w-full space-y-1.5 sm:space-y-2">
-          {/* Botões de ação principais - grid otimizado */}
-          <div className="grid grid-cols-4 gap-1 sm:gap-1.5">
+        {/* Controles */}
+        <div className="flex-shrink-0 space-y-3">
+          {/* Botões de ação */}
+          <div className="grid grid-cols-4 gap-2">
             <Button
-              variant={gameState.isNotesMode ? "default" : "outline"}
+              variant={gameState?.isNotesMode ? "default" : "outline"}
               size="sm"
               onClick={handleToggleNotes}
-              className={cn(
-                "h-7 sm:h-8 text-xs neo-btn p-1 min-w-0",
-                gameState.isNotesMode && "bg-accent text-accent-foreground"
-              )}
+              className="h-9"
             >
-              <Edit className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+              <Edit className="h-4 w-4" />
             </Button>
             
             <Button
               variant="outline"
               size="sm"
               onClick={handleUndo}
-              disabled={gameState.history.length <= 1}
-              className="h-7 sm:h-8 text-xs neo-btn p-1 min-w-0"
+              disabled={!gameState || gameState.history.length <= 1}
+              className="h-9"
             >
-              <Undo className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+              <Undo className="h-4 w-4" />
             </Button>
             
             <Button
               variant="outline"
               size="sm"
               onClick={handleHint}
-              disabled={gameState.hintsUsed >= gameState.maxHints}
-              className="h-7 sm:h-8 text-xs neo-btn p-1 min-w-0"
+              disabled={!gameState || gameState.hintsUsed >= gameState.maxHints}
+              className="h-9"
             >
-              <Lightbulb className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+              <Lightbulb className="h-4 w-4" />
             </Button>
             
             <Button
               variant="outline"
               size="sm"
               onClick={handleErase}
-              disabled={!gameState.selectedCell || gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0}
-              className="h-7 sm:h-8 text-xs neo-btn p-1 min-w-0"
+              disabled={!gameState?.selectedCell || (gameState?.selectedCell && gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0)}
+              className="h-9"
             >
-              <Eraser className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+              <Eraser className="h-4 w-4" />
             </Button>
           </div>
 
-          {/* Teclado numérico ultra compacto e responsivo */}
-          <div className="grid grid-cols-3 gap-1 sm:gap-1.5">
+          {/* Teclado numérico */}
+          <div className="grid grid-cols-3 gap-2">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
               <Button
                 key={number}
                 variant="outline"
                 onClick={() => handleNumberInput(number)}
-                disabled={!gameState.selectedCell || gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0}
-                className="h-8 sm:h-10 text-base sm:text-lg font-bold neo-btn border-2 border-primary/30 hover:border-primary/60 min-w-0"
+                disabled={!gameState?.selectedCell || (gameState?.selectedCell && gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0)}
+                className="h-12 text-lg font-bold"
               >
                 {number}
               </Button>
             ))}
           </div>
 
-          {/* Botões secundários compactos */}
-          <div className="grid grid-cols-2 gap-1 sm:gap-1.5">
+          {/* Botões secundários */}
+          <div className="grid grid-cols-2 gap-2">
             <Button
               variant="outline"
               size="sm"
               onClick={handleRestart}
-              className="h-6 sm:h-7 text-xs neo-btn px-2"
+              className="h-8"
             >
-              <RotateCcw className="h-3 w-3 sm:mr-1" />
-              <span className="hidden sm:inline">Reiniciar</span>
+              <RotateCcw className="h-3 w-3 mr-1" />
+              Reiniciar
             </Button>
             
             <Button
               variant="outline"
               size="sm"
               onClick={handleSave}
-              className="h-6 sm:h-7 text-xs neo-btn px-2"
+              className="h-8"
             >
-              <Save className="h-3 w-3 sm:mr-1" />
-              <span className="hidden sm:inline">Salvar</span>
+              <Save className="h-3 w-3 mr-1" />
+              Salvar
             </Button>
           </div>
         </div>
