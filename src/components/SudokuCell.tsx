@@ -28,23 +28,33 @@ export function SudokuCell({
     <div
       className={cn(
         // Base styles
-        "relative aspect-square flex items-center justify-center text-base font-semibold cursor-pointer transition-all duration-200 select-none",
-        "border border-border/50",
-        "hover:bg-primary/10",
+        "relative aspect-square flex items-center justify-center text-lg font-semibold cursor-pointer transition-all duration-150 select-none",
+        "border-r border-b border-border/30",
+        "hover:bg-primary/5",
+        
+        // Remove right border for last column in each 3x3 block
+        {
+          "border-r-0": col === 2 || col === 5 || col === 8,
+        },
+        
+        // Remove bottom border for last row in each 3x3 block  
+        {
+          "border-b-0": row === 2 || row === 5 || row === 8,
+        },
         
         // State-based styling
         {
           // Selected cell
-          "bg-primary/30 border-primary scale-105 z-20": isSelected,
+          "bg-primary/20 border-primary ring-2 ring-primary/50 z-20": isSelected,
           
           // Highlighted cells
-          "bg-primary/10": isHighlighted && !isSelected,
+          "bg-primary/5": isHighlighted && !isSelected,
           
           // Given numbers
-          "bg-muted/70": isGiven,
+          "bg-muted/50": isGiven,
           
           // Conflict state
-          "bg-destructive/30 border-destructive": hasConflict,
+          "bg-destructive/20 border-destructive text-destructive": hasConflict,
           
           // Default state
           "bg-background": !isSelected && !isHighlighted && !isGiven && !hasConflict,
@@ -62,9 +72,9 @@ export function SudokuCell({
           {value}
         </span>
       ) : notes.length > 0 ? (
-        <div className="relative z-10 grid grid-cols-3 gap-0 text-[0.4rem] text-muted-foreground p-0.5">
+        <div className="relative z-10 grid grid-cols-3 gap-0 text-[0.35rem] text-muted-foreground p-0.5 w-full h-full">
           {Array.from({ length: 9 }, (_, i) => (
-            <div key={i + 1} className="text-center leading-none font-medium">
+            <div key={i + 1} className="text-center leading-none font-medium flex items-center justify-center">
               {notes.includes(i + 1) ? i + 1 : ''}
             </div>
           ))}

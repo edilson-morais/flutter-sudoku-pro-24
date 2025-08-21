@@ -30,20 +30,20 @@ export function SudokuBoard({ gameState, conflicts, onCellClick }: SudokuBoardPr
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto">
+    <div className="w-full">
       {/* Board container */}
-      <div className="bg-card border border-border rounded-lg p-3 shadow-lg">
+      <div className="bg-card border border-border rounded-lg p-3 shadow-sm">
         {/* Main board grid */}
-        <div className="relative grid grid-cols-9 gap-0 bg-background border-2 border-foreground/20 aspect-square">
+        <div className="relative grid grid-cols-9 gap-0 bg-background border-2 border-border aspect-square w-full max-w-sm mx-auto">
           {/* 3x3 block separators */}
           <div className="absolute inset-0 pointer-events-none z-10">
             {/* Vertical separators */}
-            <div className="absolute top-0 bottom-0 w-1 bg-white" style={{ left: 'calc(33.333% - 2px)' }} />
-            <div className="absolute top-0 bottom-0 w-1 bg-white" style={{ left: 'calc(66.666% - 2px)' }} />
+            <div className="absolute top-0 bottom-0 w-0.5 bg-border" style={{ left: 'calc(33.333% - 1px)' }} />
+            <div className="absolute top-0 bottom-0 w-0.5 bg-border" style={{ left: 'calc(66.666% - 1px)' }} />
             
             {/* Horizontal separators */}
-            <div className="absolute left-0 right-0 h-1 bg-white" style={{ top: 'calc(33.333% - 2px)' }} />
-            <div className="absolute left-0 right-0 h-1 bg-white" style={{ top: 'calc(66.666% - 2px)' }} />
+            <div className="absolute left-0 right-0 h-0.5 bg-border" style={{ top: 'calc(33.333% - 1px)' }} />
+            <div className="absolute left-0 right-0 h-0.5 bg-border" style={{ top: 'calc(66.666% - 1px)' }} />
           </div>
           
           {/* Cells */}

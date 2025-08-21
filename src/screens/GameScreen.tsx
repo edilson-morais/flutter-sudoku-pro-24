@@ -117,7 +117,7 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
     
     const [row, col] = gameState.selectedCell;
     
-    // Can't modify given cells (only initial numbers)
+    // Can't modify given cells
     if (gameState.initialBoard[row][col] !== 0) return;
 
     setGameState(prev => {
@@ -145,7 +145,7 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
         ...prev,
         board: newBoard,
         notes: newNotes,
-        history: newHistory.slice(-10) // Keep last 10 moves
+        history: newHistory.slice(-10)
       };
     });
   }, [gameState, isCompleted]);
@@ -155,7 +155,6 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
     
     const [row, col] = gameState.selectedCell;
     
-    // Can't modify given cells (only initial numbers)
     if (gameState.initialBoard[row][col] !== 0) return;
 
     setGameState(prev => {
@@ -264,8 +263,8 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
 
   if (!gameState) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center">
-        <Card className="modern-card">
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Card>
           <CardContent className="p-8 text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-2 border-primary/20 border-t-primary mx-auto mb-4"></div>
             <p className="text-muted-foreground">Carregando jogo...</p>
@@ -281,13 +280,13 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
     const formattedTime = storageService.formatTime(completionTime);
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md modern-card animate-scale-in">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
           <CardHeader className="text-center pb-4">
-            <div className="mx-auto mb-6 w-20 h-20 bg-gradient-to-br from-accent via-primary to-accent rounded-full flex items-center justify-center shadow-2xl shadow-primary/30 animate-pulse">
+            <div className="mx-auto mb-6 w-20 h-20 bg-gradient-to-br from-accent via-primary to-accent rounded-full flex items-center justify-center">
               <Trophy className="h-10 w-10 text-white" />
             </div>
-            <CardTitle className="text-3xl gradient-text font-bold">Parabéns!</CardTitle>
+            <CardTitle className="text-3xl font-bold">Parabéns!</CardTitle>
             <p className="text-lg text-muted-foreground mt-2">Sudoku completado!</p>
           </CardHeader>
           <CardContent className="space-y-6 text-center">
@@ -297,14 +296,14 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
             </div>
             
             <div className="grid grid-cols-2 gap-4 py-4">
-              <div className="modern-card p-4 space-y-1">
+              <div className="bg-card border rounded-lg p-4 space-y-1">
                 <div className="flex items-center justify-center gap-1 text-accent">
                   <Star className="h-4 w-4" />
                 </div>
                 <p className="text-xs text-muted-foreground">Dificuldade</p>
                 <p className="font-semibold capitalize">{difficulty}</p>
               </div>
-              <div className="modern-card p-4 space-y-1">
+              <div className="bg-card border rounded-lg p-4 space-y-1">
                 <div className="flex items-center justify-center gap-1 text-warning">
                   <Lightbulb className="h-4 w-4" />
                 </div>
@@ -322,12 +321,11 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
                   setIsCompleted(false);
                   storageService.updateStatsOnStart();
                 }}
-                className="neo-btn"
               >
                 <RotateCcw className="h-4 w-4 mr-2" />
                 Jogar Novamente
               </Button>
-              <Button onClick={onHome} className="neo-btn bg-primary hover:bg-primary/90">
+              <Button onClick={onHome}>
                 <Home className="h-4 w-4 mr-2" />
                 Menu Principal
               </Button>
@@ -339,15 +337,15 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex flex-col">
-      {/* Header compacto */}
-      <div className="flex-shrink-0 px-3 py-2 border-b border-border/20">
-        <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Header */}
+      <div className="flex-shrink-0 px-4 py-3 border-b border-border bg-card">
+        <div className="flex items-center justify-between max-w-md mx-auto">
           <Button
             variant="ghost"
             size="sm"
             onClick={onHome}
-            className="h-8 w-8 p-0"
+            className="h-9 w-9 p-0"
           >
             <Home className="h-4 w-4" />
           </Button>
@@ -358,7 +356,7 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
               <span className="font-mono font-semibold">{timer}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Lightbulb className="h-4 w-4 text-warning" />
+              <Lightbulb className="h-4 w-4 text-amber-500" />
               <span className="font-semibold">{gameState?.hintsUsed || 0}/{gameState?.maxHints || 3}</span>
             </div>
             <div className="text-xs font-medium capitalize text-muted-foreground">
@@ -368,98 +366,95 @@ export function GameScreen({ difficulty, onHome, loadSavedGame = false }: GameSc
         </div>
       </div>
 
-      {/* Conteúdo principal */}
-      <div className="flex-1 flex flex-col p-3 space-y-3">
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col p-4 space-y-4 max-w-md mx-auto w-full">
         {/* Tabuleiro */}
         <div className="flex-shrink-0">
           <SudokuBoard
-            gameState={gameState!}
+            gameState={gameState}
             conflicts={conflicts}
             onCellClick={handleCellClick}
           />
         </div>
 
-        {/* Controles */}
-        <div className="flex-shrink-0 space-y-3">
-          {/* Botões de ação */}
-          <div className="grid grid-cols-4 gap-2">
+        {/* Controles de Ação */}
+        <div className="flex-shrink-0 grid grid-cols-4 gap-2">
+          <Button
+            variant={gameState?.isNotesMode ? "default" : "outline"}
+            size="sm"
+            onClick={handleToggleNotes}
+            className="h-10"
+          >
+            <Edit className="h-4 w-4" />
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleUndo}
+            disabled={!gameState || gameState.history.length <= 1}
+            className="h-10"
+          >
+            <Undo className="h-4 w-4" />
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleHint}
+            disabled={!gameState || gameState.hintsUsed >= gameState.maxHints}
+            className="h-10"
+          >
+            <Lightbulb className="h-4 w-4" />
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleErase}
+            disabled={!gameState?.selectedCell || (gameState?.selectedCell && gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0)}
+            className="h-10"
+          >
+            <Eraser className="h-4 w-4" />
+          </Button>
+        </div>
+
+        {/* Teclado Numérico */}
+        <div className="flex-shrink-0 grid grid-cols-3 gap-3">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
             <Button
-              variant={gameState?.isNotesMode ? "default" : "outline"}
-              size="sm"
-              onClick={handleToggleNotes}
-              className="h-9"
-            >
-              <Edit className="h-4 w-4" />
-            </Button>
-            
-            <Button
+              key={number}
               variant="outline"
-              size="sm"
-              onClick={handleUndo}
-              disabled={!gameState || gameState.history.length <= 1}
-              className="h-9"
-            >
-              <Undo className="h-4 w-4" />
-            </Button>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleHint}
-              disabled={!gameState || gameState.hintsUsed >= gameState.maxHints}
-              className="h-9"
-            >
-              <Lightbulb className="h-4 w-4" />
-            </Button>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleErase}
+              onClick={() => handleNumberInput(number)}
               disabled={!gameState?.selectedCell || (gameState?.selectedCell && gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0)}
-              className="h-9"
+              className="h-14 text-xl font-bold"
             >
-              <Eraser className="h-4 w-4" />
+              {number}
             </Button>
-          </div>
+          ))}
+        </div>
 
-          {/* Teclado numérico */}
-          <div className="grid grid-cols-3 gap-2">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
-              <Button
-                key={number}
-                variant="outline"
-                onClick={() => handleNumberInput(number)}
-                disabled={!gameState?.selectedCell || (gameState?.selectedCell && gameState.initialBoard[gameState.selectedCell[0]][gameState.selectedCell[1]] !== 0)}
-                className="h-12 text-lg font-bold"
-              >
-                {number}
-              </Button>
-            ))}
-          </div>
-
-          {/* Botões secundários */}
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRestart}
-              className="h-8"
-            >
-              <RotateCcw className="h-3 w-3 mr-1" />
-              Reiniciar
-            </Button>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleSave}
-              className="h-8"
-            >
-              <Save className="h-3 w-3 mr-1" />
-              Salvar
-            </Button>
-          </div>
+        {/* Botões Secundários */}
+        <div className="flex-shrink-0 grid grid-cols-2 gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleRestart}
+            className="h-10"
+          >
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reiniciar
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleSave}
+            className="h-10"
+          >
+            <Save className="h-4 w-4 mr-2" />
+            Salvar
+          </Button>
         </div>
       </div>
     </div>
