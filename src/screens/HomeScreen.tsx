@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +14,7 @@ import {
   TrendingUp
 } from "lucide-react";
 import { StorageService } from "@/services/storage-service";
+import { cn } from "@/lib/utils";
 
 interface HomeScreenProps {
   onNewGame: (difficulty: string) => void;
