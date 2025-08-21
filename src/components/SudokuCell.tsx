@@ -33,8 +33,8 @@ export function SudokuCell({
         
         // State-based styling
         {
-          // Selected cell
-          "bg-primary/20 ring-2 ring-primary/50 z-20": isSelected,
+          // Selected cell with 20% opacity
+          "bg-white/20 ring-2 ring-primary/50 z-20": isSelected,
           
           // Highlighted cells
           "bg-primary/5": isHighlighted && !isSelected,
